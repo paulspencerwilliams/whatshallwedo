@@ -35,6 +35,18 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
+group :development do
+  gem 'guard-cucumber'
+  gem 'guard-rspec'
+end
+
+group :test do
+  gem 'cucumber-rails'
+  gem 'rspec-rails'
+  gem 'database_cleaner'
+end
+
+
 # Use unicorn as the app server
 # gem 'unicorn'
 
