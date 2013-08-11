@@ -8,3 +8,4 @@ deploy:
   app: whatshallwedo
   on:
     repo: paulspencerwilliams/whatshallwedo
+  run: "rake db:migrate"
