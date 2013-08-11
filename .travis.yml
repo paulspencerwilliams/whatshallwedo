@@ -1,3 +1,10 @@
 language: ruby
 rvm:
 - 2.0.0
+deploy:
+  provider: heroku
+  api_key:
+    secure: h6lIVyMr/som5F27dSTdqGsV4Km/hR85/YWsMhbfSR+9AwlVjBrUSbBRRojdCRd6Dswn7YL7ugeX7OquFacwbFN0IyEpaf/prnk7vwYz5j70eLzQpeQylPQtXrhXyHoaljBGdJmye0Hv3SrrBVgoJc8L62pa6QMjd3sNganvlC4=
+  app: whatshallwedo
+  on:
+    repo: paulspencerwilliams/whatshallwedo
