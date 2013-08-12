@@ -13,6 +13,9 @@ group :production do
   gem 'pg'
 end
 
+gem 'randumb'
+
+gem "haml-rails"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -43,12 +46,11 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-group :development do
-  gem 'guard-cucumber'
-  gem 'guard-rspec'
-end
 
 group :test do
+  gem 'guard-cucumber'
+  gem 'guard-rspec'
+  gem 'factory_girl_rails'
   gem 'cucumber-rails'
   gem 'rspec-rails'
   gem 'database_cleaner'

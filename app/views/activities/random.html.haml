@@ -1,0 +1,11 @@
+%table#list_of_suggestions
+  %thead
+    %tr
+      %th Activity
+      %th Suitability
+  %tbody
+    -@suggestions.each do | suggestion |
+      %tr
+        %td= suggestion.name
+        %td= suggestion.weather.name 
+
