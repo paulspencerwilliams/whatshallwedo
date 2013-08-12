@@ -51,7 +51,7 @@ group :test do
   gem 'guard-cucumber'
   gem 'guard-rspec'
   gem 'factory_girl_rails'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :require => false
   gem 'rspec-rails'
   gem 'database_cleaner'
 end
