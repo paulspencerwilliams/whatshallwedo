@@ -56,6 +56,8 @@ group :test do
   gem 'database_cleaner'
 end
 
+gem 'newrelic_rpm'
+
 
 # Use unicorn as the app server
 # gem 'unicorn'
