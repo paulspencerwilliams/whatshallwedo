@@ -1,3 +1,3 @@
 class Weather < ActiveRecord::Base
-  has_many :activites
+  has_many :activities
 end

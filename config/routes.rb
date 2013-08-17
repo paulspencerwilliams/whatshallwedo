@@ -1,6 +1,10 @@
 Whatshallwedo::Application.routes.draw do
-  get "activities/random"
-  resources :activities
+  resources :activities do
+    collection do
+      get 'random'
+      get 'filtered'
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

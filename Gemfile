@@ -53,7 +53,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'cucumber-rails', :require => false
   gem 'rspec-rails'
-  gem 'database_cleaner'
+  gem 'database_cleaner' 
 end
 
 gem 'newrelic_rpm'

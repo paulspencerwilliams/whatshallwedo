@@ -4,7 +4,12 @@ Feature: As either of us, when coming up upto a weekend,
   based on weather etc
 
   Background:
-    Given the following set of activites exist
+    Given the following weather conditions exist
+      | Weather |
+      | Sunny   |
+      | Raining |
+      | Cold    |
+    And the following set of activites exist
       | Activity                        | Weather |
       | Got to the Weston Super Mare    | Sunny   |
       | Visit Sea Life Center           | Raining |
@@ -12,7 +17,7 @@ Feature: As either of us, when coming up upto a weekend,
       | Visit Madame Tussauds           | Raining | 
       | Ride around Ladybower           | Sunny   |
       | Go hot air balooning            | Sunny   |
-      | Watch The Worlds End            | Rainy   |
+      | Watch The Worlds End            | Raining |
       | Try jet skiing                  | Sunny   |
       | Visit Tamworth castle           | Sunny   |
       | Visit Warwick castle            | Sunny   |
@@ -21,3 +26,17 @@ Feature: As either of us, when coming up upto a weekend,
 
   Scenario: Viewing suggestions without specifying criteria 
     Then I will be presented with 10 random suggestions 
+
+  Scenario: Viewing suggestions based on weather criteria
+    When I choose 'Sunny'
+    Then I should see the following suggestions
+      | Activity                        |
+      | Got to the Weston Super Mare    | 
+      | Visit West Midlands Safari Park |
+      | Ride around Ladybower           |
+      | Go hot air balooning            |
+      | Try jet skiing                  |
+      | Visit Tamworth castle           |
+      | Visit Warwick castle            |
+      | Attempt Edale skyline           |
+

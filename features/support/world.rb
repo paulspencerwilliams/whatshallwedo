@@ -1,4 +1,9 @@
 module ActivitiesHelper 
+
+  def create_weather(weather)
+    FactoryGirl.create(:weather, {:name => weather })
+  end
+
   def create_activity(name, weather)
     FactoryGirl.create(:activity, 
                       {:name => name, 
