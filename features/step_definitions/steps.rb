@@ -14,9 +14,9 @@ Given(/^I visit the homepage$/) do
   visit '/'
 end
 
-When(/^I choose 'Sunny'$/) do
+When(/^I choose "(.*?)"$/) do |weather|
   within('#criteria') do
-    select('Sunny', :from => 'Weather')
+    select(weather, :from => 'Weather')
     click_button('filter')
   end
 end
@@ -34,5 +34,9 @@ Then(/^I should see the following suggestions$/) do |table|
       should have_xpath("//tbody//tr", :text => attrs[:Activity])
     end
   end
+end
+
+Then(/^"(.*?)" should still be selected$/) do |weather|
+  field_labeled('Weather').find(:xpath, ".//option[@selected = 'selected'][text() = '#{weather}']").should be_present
 end
 

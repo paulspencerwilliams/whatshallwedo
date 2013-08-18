@@ -28,15 +28,13 @@ Feature: As either of us, when coming up upto a weekend,
     Then I will be presented with 10 random suggestions 
 
   Scenario: Viewing suggestions based on weather criteria
-    When I choose 'Sunny'
+    When I choose "Raining"
     Then I should see the following suggestions
       | Activity                        |
-      | Got to the Weston Super Mare    | 
-      | Visit West Midlands Safari Park |
-      | Ride around Ladybower           |
-      | Go hot air balooning            |
-      | Try jet skiing                  |
-      | Visit Tamworth castle           |
-      | Visit Warwick castle            |
-      | Attempt Edale skyline           |
+      | Visit Madame Tussauds           | 
+      | Watch The Worlds End            |
+      | Visit Sea Life Center           |
+    And "Raining" should still be selected
+    
+
 
