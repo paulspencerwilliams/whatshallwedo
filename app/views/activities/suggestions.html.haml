@@ -3,6 +3,7 @@
   =f.label :weather_id
   =f.select :weather_id, options_from_collection_for_select(@all_weathers, 'id', 'name')
   =f.submit :filter
+%p=@criteria.weather.name
 %table#list_of_suggestions
   %thead
     %tr

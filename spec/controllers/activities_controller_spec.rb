@@ -31,27 +31,36 @@ describe ActivitiesController do
   end
   describe "GET filtered" do
     let(:filtered_suggestions) {double("filtered suggestions")}
-    let(:specified_weather) {double("specified weather")}
-    let(:criteria)          {{:weather_id => '341'}}
+    let(:specified_weather)    {double("specified weather")}
+    let(:criteria_params)      {{'weather_id' => '341'}}
+    let(:criteria)             {double("criteria")}
 
-    before (:each) do
-      Weather.stub(:find).with('341').and_return(specified_weather)
-      specified_weather.stub(:activities).and_return(filtered_suggestions)
-    end
 
-    it "assigns filtered activities" do
-      get :filtered, :criteria => {'weather_id' => 341 }
-      expect(assigns(:suggestions)).to eq(filtered_suggestions)
-    end
+      before (:each) do
+        Weather.stub(:find).with(341).and_return(specified_weather)
+        specified_weather.stub(:activities).and_return(filtered_suggestions)
+        Criteria.stub(:new).with(criteria_params).and_return(criteria)
+        criteria.stub(:weather_id).and_return(341)
+      end
 
-    it "assigns all weathers" do
-      get :filtered, :criteria => {'weather_id' => 341 }
-      expect(assigns(:all_weathers)).to eq(all_weathers)
-    end
+      it "reassigns criteria" do
+        get :filtered, {'criteria' => criteria_params}
+        expect(assigns(:criteria)).to eq(criteria)
+      end
 
-    it "renders the suggestions template" do
-      get :filtered, :criteria => {'weather_id' => 341 }
-      expect(response).to render_template(:suggestions)
-    end
+      it "assigns filtered activities" do
+        get :filtered, {'criteria' => criteria_params}
+        expect(assigns(:suggestions)).to eq(filtered_suggestions)
+      end
+
+      it "assigns all weathers" do
+        get :filtered, {'criteria' => criteria_params}
+        expect(assigns(:all_weathers)).to eq(all_weathers)
+      end
+
+      it "renders the suggestions template" do
+        get :filtered, {'criteria' => criteria_params}
+        expect(response).to render_template(:suggestions)
+      end
   end
 end

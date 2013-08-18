@@ -6,7 +6,8 @@ class ActivitiesController < ApplicationController
   end
 
   def filtered
-    @suggestions = Weather.find(params[:criteria][:weather_id]).activities
+    @criteria = Criteria.new(params[:criteria]) 
+    @suggestions = Weather.find(@criteria.weather_id).activities
     @all_weathers = Weather.all
     render :suggestions
   end
