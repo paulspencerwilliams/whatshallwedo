@@ -1,9 +1,9 @@
 =form_for :criteria, :url => {:action => :filtered}, 
-                     :html => {:id => :criteria}, :method => :get do |f|
+  :html => {:id => :criteria}, :method => :get do |f|
   =f.label :weather_id
-  =f.select :weather_id, options_from_collection_for_select(@all_weathers, 'id', 'name')
+  =f.select :weather_id, 
+    options_from_collection_for_select(@all_weathers, 'id', 'name', @criteria.weather_id)
   =f.submit :filter
-%p=@criteria.weather.name
 %table#list_of_suggestions
   %thead
     %tr

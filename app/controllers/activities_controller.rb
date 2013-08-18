@@ -1,5 +1,6 @@
 class ActivitiesController < ApplicationController
   def random
+    @criteria = Criteria.new
     @suggestions = Activity.random(10)
     @all_weathers = Weather.all
     render :suggestions
