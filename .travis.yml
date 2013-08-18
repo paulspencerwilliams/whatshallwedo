@@ -1,6 +1,9 @@
 language: ruby
 rvm:
 - 2.0.0
+branches:
+  only:
+    - master
 deploy:
   provider: heroku
   api_key:
