@@ -70,4 +70,26 @@ describe ActivitiesController do
       expect(response).to render_template(:suggestions)
     end
   end
+  describe "POST create" do
+    let(:activity_params)      {{'name' => 'a new thing to do',
+      'weather_id' => '341'}}
+    before (:each) do
+      Activity.stub(:create)
+    end
+
+    it "creates the activity" do
+      Activity.should_receive(:create).with(activity_params)
+      post :create, {'activity' => activity_params}
+    end
+
+    it "flashes success" do
+      post :create, {'activity' => activity_params}
+      expect(flash[:notice]).to eq("'a new thing to do' created")
+    end
+
+    it "redirects to suggestions" do
+      post :create, {'activity' => activity_params}
+      expect(response).to redirect_to(random_activities_path)
+    end
+  end
 end

@@ -35,6 +35,18 @@ Feature: As either of us, when coming up upto a weekend,
       | Watch The Worlds End            |
       | Visit Sea Life Center           |
     And "Raining" should still be selected
-    
+
+  Scenario: Adding a suggestion for different weather as current criteria 
+    When I choose "Raining"
+    And I add the "Sunny" suggestion "Try Go Ape"
+    Then the "Try Go Ape" suggestion should be saved
+    And I should see the following suggestions
+      | Activity                        |
+      | Visit Madame Tussauds           | 
+      | Watch The Worlds End            |
+      | Visit Sea Life Center           |
+    And "Raining" should still be selected
+
+  Scenario: Adding a suggestion for same weather as current criteria 
 
 

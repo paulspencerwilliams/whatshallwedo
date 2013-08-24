@@ -21,6 +21,14 @@ When(/^I choose "(.*?)"$/) do |weather|
   end
 end
 
+When(/^I add the "(.*?)" suggestion "(.*?)"$/) do |weather, suggestion|
+  within('#new_activity_form') do
+    fill_in('Name', :with=> suggestion)
+    select(weather, :from => 'Weather')
+    click_button('Save')
+  end
+end
+
 Then(/^I will be presented with 10 random suggestions$/) do
   within_table('list_of_suggestions') do
     should have_xpath("//tbody//tr", :count => 10)
@@ -36,7 +44,7 @@ Then(/^I should see the following suggestions$/) do |table|
   end
 end
 
-Then(/^"(.*?)" should still be selected$/) do |weather|
-  field_labeled('Weather').find(:xpath, ".//option[@selected = 'selected'][text() = '#{weather}']").should be_present
+Then(/^the "(.*?)" suggestion should be saved$/) do |name| 
+  Activity.find_by(:name => name).should_not be_nil 
+  page.should have_selector "#flash_notice", text: "'#{name}' created"
 end
-
