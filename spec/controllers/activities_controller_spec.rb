@@ -1,95 +1,100 @@
 require 'spec_helper'
 
 describe ActivitiesController do
-  let(:all_weathers) {double("all weathers")}
-  let(:criteria)             {double("criteria")}
-
-  before (:each) do
-    Weather.stub(:all).and_return(all_weathers)
-  end
-
-  describe "GET random" do
-    let(:random_suggestions) {double("random suggestions")}
-
+  describe "GET suggestions" do
+    let (:all_weathers) { double("all weathers") }
     before (:each) do
-      Activity.stub(:random).with(10).and_return(random_suggestions)
-      Criteria.stub(:new).and_return(criteria)
+      session.stub(:[])
+      Weather.stub(:all).and_return(all_weathers)
     end
 
-    it "assigns blank criteria" do
-      get :random
-      expect(assigns(:criteria)).to eq(criteria)
+    context "when session contains criteria" do
+      let (:criteria_in_session) { double("criteria in sessions")}
+      let (:matching_suggestions) { double("matching suggestions")}
+      let (:matching_weather) {double("matching weather") }
 
+      before (:each) do
+        criteria_in_session.stub(:weather_id).and_return(243)
+        matching_weather.stub(:activities).and_return(matching_suggestions)
+        Weather.stub(:find).with(243).and_return(matching_weather)
+        session.stub(:[])
+        session.stub(:[]).with(:criteria).and_return(criteria_in_session)
+      end
+
+      it "should assign matching suggestions" do
+        get :suggestions
+        expect(assigns(:suggestions)).to eq(matching_suggestions)  
+      end
+
+      it "should assign criteria from session" do
+        get :suggestions
+        expect(assigns(:criteria)).to eq(criteria_in_session)  
+      end
+
+      it "assigns all weathers" do
+        get :suggestions
+        expect(assigns(:all_weathers)).to eq(all_weathers)
+      end
+
+      it "should render suggestions template" do
+        get :suggestions
+        expect(response).to render_template(:suggestions)
+      end
     end
 
-    it "assigns random activities" do
-      get :random
-      expect(assigns(:suggestions)).to eq(random_suggestions)
-    end
+    context "when criteria has been set" do
+      let (:random_suggestions) { double(" suggestions")}
+      let (:blank_criteria) {double("blank criteria")}
 
-    it "assigns all weathers" do
-      get :random
-      expect(assigns(:all_weathers)).to eq(all_weathers)
-    end
+      before (:each) do
+        Activity.stub(:random).with(10).and_return(random_suggestions)
+        session.stub(:[]).with(:criteria).and_return(nil) 
+        Criteria.stub(:new).and_return(blank_criteria)
+      end
 
-    it "renders the suggestions template" do
-      get :random
-      expect(response).to render_template(:suggestions)
+      it "should assign random suggestions" do
+        get :suggestions
+        expect(assigns(:suggestions)).to eq(random_suggestions)  
+      end
+
+      it "should assign a blank criteria" do
+        get :suggestions
+        expect(assigns(:criteria)).to eq(blank_criteria)  
+      end
+
+      it "assigns all weathers" do
+        get :suggestions
+        expect(assigns(:all_weathers)).to eq(all_weathers)
+      end
+
+      it "should render suggestions template" do
+        get :suggestions
+        expect(response).to render_template(:suggestions)
+      end
     end
   end
-  describe "GET filtered" do
-    let(:filtered_suggestions) {double("filtered suggestions")}
-    let(:specified_weather)    {double("specified weather")}
-    let(:criteria_params)      {{'weather_id' => '341'}}
 
-
-    before (:each) do
-      Weather.stub(:find).with(341).and_return(specified_weather)
-      specified_weather.stub(:activities).and_return(filtered_suggestions)
-      Criteria.stub(:new).with(criteria_params).and_return(criteria)
-      criteria.stub(:weather_id).and_return(341)
-    end
-
-    it "reassigns criteria" do
-      get :filtered, {'criteria' => criteria_params}
-      expect(assigns(:criteria)).to eq(criteria)
-    end
-
-    it "assigns filtered activities" do
-      get :filtered, {'criteria' => criteria_params}
-      expect(assigns(:suggestions)).to eq(filtered_suggestions)
-    end
-
-    it "assigns all weathers" do
-      get :filtered, {'criteria' => criteria_params}
-      expect(assigns(:all_weathers)).to eq(all_weathers)
-    end
-
-    it "renders the suggestions template" do
-      get :filtered, {'criteria' => criteria_params}
-      expect(response).to render_template(:suggestions)
-    end
-  end
   describe "POST create" do
-    let(:activity_params)      {{'name' => 'a new thing to do',
+    let (:activity_params) {{'name' => 'a new thing to do',
       'weather_id' => '341'}}
+
     before (:each) do
       Activity.stub(:create)
     end
 
     it "creates the activity" do
       Activity.should_receive(:create).with(activity_params)
-      post :create, {'activity' => activity_params}
-    end
-
-    it "flashes success" do
-      post :create, {'activity' => activity_params}
-      expect(flash[:notice]).to eq("'a new thing to do' created")
+      post :create, :activity => activity_params
     end
 
     it "redirects to suggestions" do
-      post :create, {'activity' => activity_params}
-      expect(response).to redirect_to(random_activities_path)
+      post :create, :activity => activity_params
+      expect(response).to redirect_to(suggestions_activities_path)
     end
-  end
+
+    it "flashes success" do
+      post :create, :activity => activity_params
+      expect(flash[:notice]).to eq("'a new thing to do' created")
+    end
+  end 
 end

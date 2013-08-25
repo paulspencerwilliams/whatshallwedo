@@ -48,3 +48,4 @@ Then(/^the "(.*?)" suggestion should be saved$/) do |name|
   Activity.find_by(:name => name).should_not be_nil 
   page.should have_selector "#flash_notice", text: "'#{name}' created"
 end
+

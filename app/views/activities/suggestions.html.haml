@@ -1,5 +1,5 @@
-=form_for :criteria, :url => {:action => :filtered}, 
-  :html => {:id => :criteria}, :method => :get do |f|
+=form_for :criteria, :url => activities_suggestions_criteria_path, 
+  :html => {:id => :criteria}, :method => :put do |f|
   =f.label :weather_id
   =f.select :weather_id, 
     options_from_collection_for_select(@all_weathers, 'id', 'name', @criteria.weather_id)

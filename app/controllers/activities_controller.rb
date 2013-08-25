@@ -1,26 +1,25 @@
 class ActivitiesController < ApplicationController
-  def random
-    @criteria = Criteria.new
-    @suggestions = Activity.random(10)
+  def suggestions
+    criteria_in_session = session[:criteria]
     @all_weathers = Weather.all
-    render :suggestions
-  end
-
-  def filtered
-    @activity = Activity.new
-    @criteria = Criteria.new(params[:criteria]) 
-    @suggestions = Weather.find(@criteria.weather_id).activities
-    @all_weathers = Weather.all
-    render :suggestions
+    if criteria_in_session.nil?
+      @criteria = Criteria.new
+      @suggestions = Activity.random(10)
+    else
+      @criteria = criteria_in_session 
+      @suggestions = Weather.find(@criteria.weather_id).activities
+    end
   end
 
   def create
-    Activity.create(new_activity_params)
-    redirect_to :random_activities, :notice => "'#{new_activity_params[:name]}' created"
+    activity = Activity.create(activity_params)
+    redirect_to suggestions_activities_path, :notice => "'#{activity_params[:name]}' created"
   end
 
   private
-  def new_activity_params
+
+  def activity_params
     params.require(:activity).permit(:name, :weather_id)
   end
+
 end
