@@ -49,3 +49,9 @@ Then(/^the "(.*?)" suggestion should be saved$/) do |name|
   page.should have_selector "#flash_notice", text: "'#{name}' created"
 end
 
+
+Then(/^"(.*?)" should still be selected$/) do |weather|
+  within('#criteria') do
+    field_labeled('Weather').find(:xpath, ".//option[@selected = 'selected'][text() = '#{weather}']").should be_present
+  end
+end
