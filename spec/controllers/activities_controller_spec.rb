@@ -15,7 +15,7 @@ describe ActivitiesController do
 
       before (:each) do
         criteria_in_session.stub(:weather_id).and_return(243)
-        matching_weather.stub(:activities).and_return(matching_suggestions)
+        matching_weather.stub(:undone_activities).and_return(matching_suggestions)
         Weather.stub(:find).with(243).and_return(matching_weather)
         session.stub(:[])
         session.stub(:[]).with(:criteria).and_return(criteria_in_session)
@@ -97,4 +97,32 @@ describe ActivitiesController do
       expect(flash[:notice]).to eq("'a new thing to do' created")
     end
   end 
+
+  describe "PATCH update" do
+    let (:activity_params) {{'done' => 'true'}}
+    let (:activity) { double("activity")}
+
+    before (:each) do
+      Activity.stub(:find_by_id).with('341').and_return(activity)
+      activity.stub(:update_attributes)
+      activity.stub(:name).and_return('a new thing to do')
+    end
+
+
+    it "redirects to suggestions" do
+      patch :update, :id=> '341', :activity => activity_params 
+      expect(response).to redirect_to(suggestions_activities_path)
+    end
+
+    it "updates the activity" do
+      activity.should_receive(:update_attributes).with(activity_params)
+      patch :update, :id=> '341', :activity => activity_params 
+    end
+
+    it "flashes success" do
+      patch :update, :id=> '341', :activity => activity_params 
+      expect(flash[:notice]).to eq("'a new thing to do' marked as done")
+    end
+  end
+
 end

@@ -29,6 +29,12 @@ When(/^I add the "(.*?)" suggestion "(.*?)"$/) do |weather, suggestion|
   end
 end
 
+When(/^I mark "(.*?)" as done$/) do |activity|
+  within_table('list_of_suggestions') do
+    find(:xpath, "//tr[td[text()='#{activity}']]/td/form/input[@value='Done']").click
+  end
+end
+
 Then(/^I will be presented with 10 random suggestions$/) do
   within_table('list_of_suggestions') do
     should have_xpath("//tbody//tr", :count => 10)
@@ -54,4 +60,8 @@ Then(/^"(.*?)" should still be selected$/) do |weather|
   within('#criteria') do
     field_labeled('Weather').find(:xpath, ".//option[@selected = 'selected'][text() = '#{weather}']").should be_present
   end
+end
+
+Then(/^"(.*?)" should be marked as done$/) do |name|
+  Activity.find_by(:name => name).done.should be_true 
 end

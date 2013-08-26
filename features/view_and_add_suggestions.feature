@@ -37,8 +37,8 @@ Feature: As either of us, when coming up upto a weekend,
     And "Raining" should still be selected
 
   Scenario: Adding a suggestion for different weather as current criteria 
-    When I choose "Raining"
-    And I add the "Sunny" suggestion "Try Go Ape"
+    Given I choose "Raining"
+    When I add the "Sunny" suggestion "Try Go Ape"
     Then the "Try Go Ape" suggestion should be saved
     And I should see the following suggestions
       | Activity                        |
@@ -48,8 +48,8 @@ Feature: As either of us, when coming up upto a weekend,
     And "Raining" should still be selected
 
   Scenario: Adding a suggestion for same weather as current criteria 
-    When I choose "Raining"
-    And I add the "Raining" suggestion "Try Go Ape"
+    Given I choose "Raining"
+    When I add the "Raining" suggestion "Try Go Ape"
     Then the "Try Go Ape" suggestion should be saved
     And I should see the following suggestions
       | Activity                        |
@@ -60,3 +60,11 @@ Feature: As either of us, when coming up upto a weekend,
     And "Raining" should still be selected
 
 
+  Scenario: Marking a suggestion as done
+    Given I choose "Raining"
+    When I mark "Visit Sea Life Center" as done
+    Then "Visit Sea Life Center" should be marked as done
+    And I should see the following suggestions
+      | Activity                        |
+      | Visit Madame Tussauds           | 
+      | Watch The Worlds End            |

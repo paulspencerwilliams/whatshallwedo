@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130811182958) do
+ActiveRecord::Schema.define(version: 20130826193808) do
 
   create_table "activities", force: true do |t|
     t.string   "name"
     t.integer  "weather_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "done",       default: false
   end
 
   add_index "activities", ["weather_id"], name: "index_activities_on_weather_id"
