@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
     @all_weathers = Weather.all
     if criteria_in_session.nil?
       @criteria = Criteria.new
-      @suggestions = Activity.random(10)
+      @suggestions = Activity.random_undone(10)
     else
       @criteria = criteria_in_session 
       @suggestions = Weather.find(@criteria.weather_id).undone_activities

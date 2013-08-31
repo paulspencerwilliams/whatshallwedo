@@ -16,7 +16,7 @@ Feature: As either of us, when coming up upto a weekend,
       | Visit West Midlands Safari Park | Sunny   |
       | Visit Madame Tussauds           | Raining | 
       | Ride around Ladybower           | Sunny   |
-      | Go hot air balooning            | Sunny   |
+      | Go hot air ballooning            | Sunny   |
       | Watch The Worlds End            | Raining |
       | Try jet skiing                  | Sunny   |
       | Visit Tamworth castle           | Sunny   |
@@ -26,6 +26,12 @@ Feature: As either of us, when coming up upto a weekend,
 
   Scenario: Viewing suggestions without specifying criteria 
     Then I will be presented with 10 random suggestions 
+
+  Scenario: Viewing suggestions without specifying criteria omits done activities 
+    Given all activities are marked as done
+    When I refresh the page
+    Then I will be presented with 0 random suggestions 
+
 
   Scenario: Viewing suggestions based on weather criteria
     When I choose "Raining"
@@ -68,3 +74,5 @@ Feature: As either of us, when coming up upto a weekend,
       | Activity                        |
       | Visit Madame Tussauds           | 
       | Watch The Worlds End            |
+
+

@@ -8,7 +8,7 @@ describe ActivitiesController do
       Weather.stub(:all).and_return(all_weathers)
     end
 
-    context "when session contains criteria" do
+    context "with criteria in session" do
       let (:criteria_in_session) { double("criteria in sessions")}
       let (:matching_suggestions) { double("matching suggestions")}
       let (:matching_weather) {double("matching weather") }
@@ -42,12 +42,12 @@ describe ActivitiesController do
       end
     end
 
-    context "when criteria has been set" do
+    context "with no criteria in session" do
       let (:random_suggestions) { double(" suggestions")}
       let (:blank_criteria) {double("blank criteria")}
 
       before (:each) do
-        Activity.stub(:random).with(10).and_return(random_suggestions)
+        Activity.stub(:random_undone).with(10).and_return(random_suggestions)
         session.stub(:[]).with(:criteria).and_return(nil) 
         Criteria.stub(:new).and_return(blank_criteria)
       end

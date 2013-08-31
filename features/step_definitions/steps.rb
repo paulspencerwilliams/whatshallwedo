@@ -14,6 +14,14 @@ Given(/^I visit the homepage$/) do
   visit '/'
 end
 
+Given(/^all activities are marked as done$/) do
+  Activity.all.each { | activity | activity.update_attributes!(:done => true) } 
+end
+
+When(/^I refresh the page$/) do
+  visit (current_path)
+end
+
 When(/^I choose "(.*?)"$/) do |weather|
   within('#criteria') do
     select(weather, :from => 'Weather')
@@ -35,9 +43,10 @@ When(/^I mark "(.*?)" as done$/) do |activity|
   end
 end
 
-Then(/^I will be presented with 10 random suggestions$/) do
+Then(/^I will be presented with (\d+) random suggestions$/) do | expected_count |
+  Activity.random_undone(10).count.should eq(expected_count)
   within_table('list_of_suggestions') do
-    should have_xpath("//tbody//tr", :count => 10)
+    should have_xpath("//tbody//tr", :count => expected_count)
   end
 end
 
@@ -64,4 +73,8 @@ end
 
 Then(/^"(.*?)" should be marked as done$/) do |name|
   Activity.find_by(:name => name).done.should be_true 
+end
+
+Transform /^(-?\d+)$/ do |number|
+    number.to_i
 end
